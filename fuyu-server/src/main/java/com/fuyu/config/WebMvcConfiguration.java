@@ -1,5 +1,4 @@
 package com.fuyu.config;
-
 import com.fuyu.interceptor.JwtTokenAdminInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     protected void addInterceptors(InterceptorRegistry registry) {
         log.info("开始注册自定义拦截器...");
         registry.addInterceptor(jwtTokenAdminInterceptor)
-                .addPathPatterns("/admin/**")
+                .addPathPatterns("/admin/**")   // 拦截路径
                 .excludePathPatterns("/admin/employee/login");
     }
 
@@ -43,25 +42,28 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      */
     @Bean
     public Docket docket() {
+        log.info("准备生成接口文档....");
         ApiInfo apiInfo = new ApiInfoBuilder()
-                .title("苍穹外卖项目接口文档")
+                .title("复域美食项目接口文档")
                 .version("2.0")
-                .description("苍穹外卖项目接口文档")
+                .description("复域美食项目接口文档")
                 .build();
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.sky.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.fuyu.controller"))
                 .paths(PathSelectors.any())
                 .build();
         return docket;
     }
 
     /**
-     * 设置静态资源映射
+     * 设置静态资源映射  静态页面访问 （文档接口页面）
      * @param registry
      */
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        log.info("开始静态资源映射.....");
+        //当访问/doc.html/????时候，不要走springMVC, 而是从/META-INF/resources/目录下查找内容
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
