@@ -1,7 +1,5 @@
 package com.fuyu.result;
-
 import lombok.Data;
-
 import java.io.Serializable;
 
 /**

@@ -33,7 +33,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         log.info("开始注册自定义拦截器...");
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/admin/**")   // 拦截路径
-                .excludePathPatterns("/admin/employee/login");
+                .excludePathPatterns("/admin/employee/login");// 不拦截的路径
     }
 
     /**
@@ -58,7 +58,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     }
 
     /**
-     * 设置静态资源映射  静态页面访问 （文档接口页面）
+     * 设置静态资源映射  静态页面访问 （文档接口页面）重写父类的方法
      * @param registry
      */
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
