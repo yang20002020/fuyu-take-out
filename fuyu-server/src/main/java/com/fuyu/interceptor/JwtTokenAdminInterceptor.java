@@ -1,6 +1,7 @@
 package com.fuyu.interceptor;
 
 import com.fuyu.constant.JwtClaimsConstant;
+import com.fuyu.context.BaseContext;
 import com.fuyu.properties.JwtProperties;
 import com.fuyu.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -47,6 +48,7 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             log.info("jwt校验:{}", token);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
             Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
+            BaseContext.setCurrentId(empId); //将用户id的数据empId 存在线程变量Threadlocal中
             log.info("当前员工id：", empId);
             //3、通过，放行
             return true;
