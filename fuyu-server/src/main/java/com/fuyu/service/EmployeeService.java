@@ -2,7 +2,9 @@ package com.fuyu.service;
 
 import com.fuyu.dto.EmployeeDTO;
 import com.fuyu.dto.EmployeeLoginDTO;
+import com.fuyu.dto.EmployeePageQueryDTO;
 import com.fuyu.entity.Employee;
+import com.fuyu.result.PageResult;
 
 public interface EmployeeService {
 
@@ -18,4 +20,11 @@ public interface EmployeeService {
      * @param employeeDTO
      */
     void save(EmployeeDTO employeeDTO);
+
+    /**
+     * 员工分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
+    PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
 }

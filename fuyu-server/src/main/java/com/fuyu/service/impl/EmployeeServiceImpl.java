@@ -7,12 +7,17 @@ import com.fuyu.constant.StatusConstant;
 import com.fuyu.context.BaseContext;
 import com.fuyu.dto.EmployeeDTO;
 import com.fuyu.dto.EmployeeLoginDTO;
+import com.fuyu.dto.EmployeePageQueryDTO;
 import com.fuyu.entity.Employee;
 import com.fuyu.exception.AccountLockedException;
 import com.fuyu.exception.AccountNotFoundException;
 import com.fuyu.exception.PasswordErrorException;
 import com.fuyu.mapper.EmployeeMapper;
+import com.fuyu.result.PageResult;
+import com.fuyu.result.Result;
 import com.fuyu.service.EmployeeService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import jdk.net.SocketFlow;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -128,6 +134,25 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.insert(employee);
+    }
+
+    /**
+     * 员工分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
+    @Override
+    public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
+        // select *from employee limit 0,10
+        //开始分页查询  startPage 开始分页            页面，页码                        每页显示记录数
+        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
+
+        Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
+        //  total 总记录数
+        long total = page.getTotal();
+        // result 当前页数据集合
+        List<Employee> result = page.getResult();
+        return new PageResult(total,result);
     }
 
 }
