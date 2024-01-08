@@ -127,4 +127,27 @@ public class EmployeeController {
 //    }
 //  code 编码：1成功，0和其它数字为失败
 
+    /**
+     *根据id查询用户信息
+     * @param id
+     * @return
+     */
+
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询用户信息")
+   public  Result<Employee> getById(@PathVariable Integer id){
+      Employee employee = employeeService.getById(id);
+      return Result.success(employee); // result.code = 1;  result.data = employee;
+   }
+
+   /*
+        public static <T> Result<T> success(T object) {
+            Result<T> result = new Result<T>();
+            result.data = object;
+            result.code = 1;
+            return result;
+        }
+    */
+
+
 }
