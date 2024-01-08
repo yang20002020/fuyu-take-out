@@ -149,5 +149,17 @@ public class EmployeeController {
         }
     */
 
+    /**
+     * 更新修改员工信息
+     */
+    @PutMapping
+    @ApiOperation("更新修改员工信息")
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+         log.info("更新修改员工信息:{}",employeeDTO);
+         employeeService.update(employeeDTO);
+         return Result.success();
+
+    }
+
 
 }
