@@ -104,4 +104,27 @@ public class EmployeeController {
         return Result.success(pageResult);
 
     }
+
+    /**
+     *启用禁用员工账号
+     * @param status
+     * @param id
+     *
+     */
+
+    @PostMapping("/status/{status}")
+    @ApiOperation("启用、禁用员工账号")
+  //   http://localhost/api/employee/status/0?id=13
+    public Result startOrStop(@PathVariable Integer status,Long id){
+        log.info("启用禁用员工账号，{},{}",status,id);
+        employeeService.startOrStop(status,id);
+        return Result.success(); // success() 返回 result
+    }
+//    public static <T> Result<T> success() {
+//        Result<T> result = new Result<T>();
+//        result.code = 1;
+//        return result;
+//    }
+//  code 编码：1成功，0和其它数字为失败
+
 }
