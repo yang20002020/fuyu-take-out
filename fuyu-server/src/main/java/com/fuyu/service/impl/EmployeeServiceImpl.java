@@ -14,11 +14,9 @@ import com.fuyu.exception.AccountNotFoundException;
 import com.fuyu.exception.PasswordErrorException;
 import com.fuyu.mapper.EmployeeMapper;
 import com.fuyu.result.PageResult;
-import com.fuyu.result.Result;
 import com.fuyu.service.EmployeeService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import jdk.net.SocketFlow;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -127,11 +125,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setPassword(md5DigestAsHex);
         employee.setStatus(StatusConstant.ENABLE);
         // LocalDateTime  //localDateTime : 2023-11-27T00:32:14.206
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
         //设置当前记录创建人id和修改人id
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setCreateUser(BaseContext.getCurrentId());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.insert(employee);
     }
@@ -192,8 +190,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void update(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO,employee);
-        employee.setUpdateUser(BaseContext.getCurrentId());
-        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setUpdateTime(LocalDateTime.now());
         employeeMapper.update(employee);
     }
 

@@ -1,7 +1,6 @@
 package com.fuyu.mapper;
 
 import com.fuyu.annotation.AutoFill;
-import com.fuyu.dto.EmployeeDTO;
 import com.fuyu.dto.EmployeePageQueryDTO;
 import com.fuyu.entity.Employee;
 import com.fuyu.enumeration.OperationType;
