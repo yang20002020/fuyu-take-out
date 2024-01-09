@@ -7,9 +7,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement //开启注解方式的事务管理
 @Slf4j
-public class SkyApplication {
+public class FuyuApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SkyApplication.class, args);
+        SpringApplication.run(FuyuApplication.class, args);
         log.info("server started");
     }
 }

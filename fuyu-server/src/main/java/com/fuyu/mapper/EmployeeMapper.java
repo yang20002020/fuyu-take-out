@@ -1,8 +1,10 @@
 package com.fuyu.mapper;
 
+import com.fuyu.annotation.AutoFill;
 import com.fuyu.dto.EmployeeDTO;
 import com.fuyu.dto.EmployeePageQueryDTO;
 import com.fuyu.entity.Employee;
+import com.fuyu.enumeration.OperationType;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -22,7 +24,7 @@ public interface EmployeeMapper {
      * 新增员工
      * @param employee
      */
-
+    @AutoFill(value= OperationType.INSERT)
     void insert(Employee employee);
 
     /**
@@ -36,6 +38,7 @@ public interface EmployeeMapper {
      * 编辑员工信息 更新
      * @param employee
      */
+    @AutoFill(value= OperationType.UPDATE)
     void update(Employee employee);
 
     /**
