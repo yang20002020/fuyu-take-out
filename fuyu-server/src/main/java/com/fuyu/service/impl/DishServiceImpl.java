@@ -1,16 +1,20 @@
 package com.fuyu.service.impl;
 import com.fuyu.dto.DishDTO;
+import com.fuyu.dto.DishPageQueryDTO;
 import com.fuyu.entity.Dish;
 import com.fuyu.entity.DishFlavor;
 import com.fuyu.mapper.DishFlavorMapper;
 import com.fuyu.mapper.DishMapper;
+import com.fuyu.result.PageResult;
 import com.fuyu.service.DishService;
+import com.fuyu.vo.DishVO;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -58,5 +62,17 @@ public class DishServiceImpl implements DishService {
           dishFlavorMapper.insertBatch(flavors);
         }
 
+    }
+
+    /**
+     * 菜品分页查询
+     * @param dishPageQueryDTO
+     * @return
+     */
+    @Override
+    public PageResult pageQuery(DishPageQueryDTO dishPageQueryDTO) {
+         PageHelper.startPage(dishPageQueryDTO.getPage(),dishPageQueryDTO.getPageSize());
+         Page<DishVO> page= dishMapper.pageQuery(dishPageQueryDTO);
+         return new PageResult(page.getTotal(),page.getResult());
     }
 }
