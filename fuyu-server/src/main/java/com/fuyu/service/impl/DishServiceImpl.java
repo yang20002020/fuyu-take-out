@@ -1,10 +1,15 @@
 package com.fuyu.service.impl;
+import com.fuyu.constant.MessageConstant;
+import com.fuyu.constant.StatusConstant;
 import com.fuyu.dto.DishDTO;
 import com.fuyu.dto.DishPageQueryDTO;
 import com.fuyu.entity.Dish;
 import com.fuyu.entity.DishFlavor;
+import com.fuyu.entity.SetmealDish;
+import com.fuyu.exception.DeletionNotAllowedException;
 import com.fuyu.mapper.DishFlavorMapper;
 import com.fuyu.mapper.DishMapper;
+import com.fuyu.mapper.SetmealDishMapper;
 import com.fuyu.result.PageResult;
 import com.fuyu.service.DishService;
 import com.fuyu.vo.DishVO;
@@ -27,6 +32,10 @@ public class DishServiceImpl implements DishService {
 
     @Autowired
     private DishFlavorMapper dishFlavorMapper;
+
+
+    @Autowired
+    private SetmealDishMapper setmealDishMapper;
 
 
 
@@ -74,5 +83,46 @@ public class DishServiceImpl implements DishService {
          PageHelper.startPage(dishPageQueryDTO.getPage(),dishPageQueryDTO.getPageSize());
          Page<DishVO> page= dishMapper.pageQuery(dishPageQueryDTO);
          return new PageResult(page.getTotal(),page.getResult());
+    }
+
+    /**
+     * 批量删除菜品
+     * @param ids
+     */
+    @Transactional
+    @Override
+    public void deleteBatch(List<Long> ids) {
+      ids.forEach(
+              id->{
+                  //根据主键查询菜品
+                  Dish dish= dishMapper.getById(id);
+                  //判断 当前要删除的菜品状态是否为起售中
+                  if(dish.getStatus()== StatusConstant.ENABLE){
+                      //如果是起售中，抛出业务异常
+                      throw new DeletionNotAllowedException(MessageConstant.DISH_ON_SALE);
+                  }
+                  //判断当前要删除的菜品是否被套餐关联了
+                   List<Long> listId=setmealDishMapper.getSetmealIdsByDishIds(ids);
+                  if(listId.size()>0 && listId!=null){
+                      throw new DeletionNotAllowedException(MessageConstant.DISH_BE_RELATED_BY_SETMEAL);
+                  }
+              }
+      );
+
+//      ids.forEach( id->{
+//          //删除菜品表中的菜品数据
+//          dishMapper.deleteById(id);
+//          //删除菜品关联的口味数据，即口味表中的数据
+//          dishFlavorMapper.deleteByDishId(id);
+//      });
+
+        //删除菜品表中的菜品数据
+        // sql : delete from dish where in in (?,?,?)
+        dishMapper.deleteByIds(ids);
+
+        //删除菜品关联的口味数据，即口味表中的数据
+        // delete from dish_flavor  where dish_id in (?,?,?)
+        dishFlavorMapper.deleteByDishIds(ids);
+
     }
 }

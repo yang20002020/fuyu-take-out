@@ -6,8 +6,11 @@ import com.fuyu.entity.Dish;
 import com.fuyu.enumeration.OperationType;
 import com.fuyu.vo.DishVO;
 import com.github.pagehelper.Page;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface DishMapper {
@@ -33,4 +36,27 @@ public interface DishMapper {
      * @return
      */
     Page<DishVO> pageQuery(DishPageQueryDTO dishPageQueryDTO);
+
+    /**
+     * 根据菜品id查询菜品信息
+     * @param id
+     * @return
+     */
+    @Select("select * from dish where id=#{id}")
+    Dish getById(Long id);
+
+    /**
+     * 根据菜品 id 删除菜品数据
+     * @param id
+     */
+    @Delete("delete  from dish where id= #{id}")
+    void deleteById(Long id);
+
+    /**
+     * 删除菜品表中的菜品数据
+     * @param ids
+     */
+    //sql : delete from dish where in in (?,?,?)
+
+    void deleteByIds(List<Long> ids);
 }
