@@ -11,6 +11,7 @@ import com.fuyu.mapper.DishFlavorMapper;
 import com.fuyu.mapper.DishMapper;
 import com.fuyu.mapper.SetmealDishMapper;
 import com.fuyu.result.PageResult;
+import com.fuyu.result.Result;
 import com.fuyu.service.DishService;
 import com.fuyu.vo.DishVO;
 import com.github.pagehelper.Page;
@@ -18,6 +19,7 @@ import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -123,6 +125,26 @@ public class DishServiceImpl implements DishService {
         //删除菜品关联的口味数据，即口味表中的数据
         // delete from dish_flavor  where dish_id in (?,?,?)
         dishFlavorMapper.deleteByDishIds(ids);
+
+    }
+
+    /**
+     * 根据id查询菜品和对应的口味数据
+     * 需要查询两张表，再将两张表的数据封装到一起
+     * @param id
+     * @return
+     */
+    @Override
+    public DishVO getDishByIdWithFlavor(Long id) {
+         DishVO dishVO =new DishVO();
+        //根据id查询菜品数据
+         Dish dish = dishMapper.getById(id);
+        //根据菜品id 查询口味数据
+         List<DishFlavor>   dishFlavors =  dishFlavorMapper.getByDishId(id);
+        //将查询到的数据封装到VO
+         BeanUtils.copyProperties(dish,dishVO);
+         dishVO.setFlavors(dishFlavors);
+         return dishVO;
 
     }
 }

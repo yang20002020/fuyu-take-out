@@ -1,5 +1,4 @@
 package com.fuyu.vo;
-
 import com.fuyu.entity.DishFlavor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

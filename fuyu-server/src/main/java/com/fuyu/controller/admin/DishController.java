@@ -4,12 +4,14 @@ import com.fuyu.dto.DishPageQueryDTO;
 import com.fuyu.result.PageResult;
 import com.fuyu.result.Result;
 import com.fuyu.service.DishService;
+import com.fuyu.vo.DishOverViewVO;
 import com.fuyu.vo.DishVO;
 import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,5 +66,19 @@ public class DishController {
         log.info("批量删除菜品:{}",ids);
         dishService.deleteBatch(ids);
         return Result.success();
+    }
+
+
+    /**
+     * 根据id查询菜品
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询菜品")
+    public Result<DishVO> getDishById(@PathVariable Long id){
+        log.info("根据id查询菜品:{}",id);
+        DishVO dishVO= dishService.getDishByIdWithFlavor(id);
+        return Result.success(dishVO);
     }
 }

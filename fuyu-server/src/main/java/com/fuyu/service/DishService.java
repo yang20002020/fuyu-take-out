@@ -2,6 +2,7 @@ package com.fuyu.service;
 import com.fuyu.dto.DishDTO;
 import com.fuyu.dto.DishPageQueryDTO;
 import com.fuyu.result.PageResult;
+import com.fuyu.vo.DishVO;
 
 import java.util.List;
 
@@ -25,4 +26,12 @@ public interface DishService {
      * @param ids
      */
     void deleteBatch(List<Long> ids);
+
+
+    /**
+     * 根据id查询菜品和口味数据
+     * @param id
+     * @return
+     */
+    DishVO getDishByIdWithFlavor(Long id);
 }

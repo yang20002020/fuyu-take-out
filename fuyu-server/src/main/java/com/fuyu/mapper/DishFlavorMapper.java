@@ -2,6 +2,7 @@ package com.fuyu.mapper;
 import com.fuyu.entity.DishFlavor;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -27,4 +28,13 @@ public interface DishFlavorMapper {
      * @param dishIds
      */
     void deleteByDishIds(List<Long> dishIds);
+
+    /**
+     * 更加菜品id 查询口味数据，即口味表中的数据
+     * @param DishId
+     */
+    @Select("select * from dish_flavor where id=#{DishId}")
+    List<DishFlavor> getByDishId(Long DishId);
+
+
 }
