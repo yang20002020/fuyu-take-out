@@ -16,6 +16,7 @@ import com.fuyu.service.DishService;
 import com.fuyu.vo.DishVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,6 +146,40 @@ public class DishServiceImpl implements DishService {
          BeanUtils.copyProperties(dish,dishVO);
          dishVO.setFlavors(dishFlavors);
          return dishVO;
+
+    }
+
+    /**
+     * 根据id修改菜品的基本信息和对应的口味信息
+     * 修改两张表 一个是菜品表  一个是关联的口味表
+     * @param dishDTO
+     */
+    @Override
+    public void updateDishWithFlavor(DishDTO dishDTO) {
+
+        Dish dish=new Dish();
+        BeanUtils.copyProperties(dishDTO,dish);
+        //修改菜品表基本信息
+        dishMapper.updateDish(dish);
+
+        // 删除原有的口味数据
+        dishFlavorMapper.deleteByDishId(dishDTO.getId());
+
+        //重新插入口味数据
+         //1.获取口味列表
+        List<DishFlavor> flavors = dishDTO.getFlavors();
+         //2.设置dishid
+        if(flavors.size()>0 && flavors!=null){
+          flavors.forEach(
+                  dishFlavor->{
+                    // 每一个菜品口味DishFlavor对象 都对应一个菜品id dishId
+                    // 每一个菜品id 可以有多种口味；多种口味对应一种菜品id
+                      dishFlavor.setDishId(dishDTO.getId());
+                }
+          );
+            //向口味表插入n条数据 批量插入
+            dishFlavorMapper.insertBatch(flavors);
+        }
 
     }
 }
