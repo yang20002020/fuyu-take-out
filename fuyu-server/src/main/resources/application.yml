@@ -41,4 +41,8 @@ fuyu:
   alioss:
     endpoint: ${fuyu.alioss.endpoint}
     bucket-name: ${fuyu.alioss.bucket-name}
-
+  redis:
+    host: ${fuyu.redis.host}
+    port: ${fuyu.redis.port}
+    password: ${fuyu.redis.password}
+    database: ${fuyu.redis.database}

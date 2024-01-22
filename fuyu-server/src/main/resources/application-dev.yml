@@ -9,3 +9,8 @@ fuyu:
   alioss:
     endpoint: oss-cn-beijing.aliyuncs.com
     bucket-name: tlisa-web
+  redis:
+    host: localhost
+    port: 6379
+    passowrd: 123456
+    databass: 0
