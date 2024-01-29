@@ -14,3 +14,6 @@ fuyu:
     port: 6379
     passowrd: 123456
     databass: 0
+  wechat:
+    appid: wx55089811878cb5d5
+    secret: a6eb48a10266336b46d1d8f808b387c3

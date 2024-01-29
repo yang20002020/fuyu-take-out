@@ -1,5 +1,6 @@
 package com.fuyu.config;
 import com.fuyu.interceptor.JwtTokenAdminInterceptor;
+import com.fuyu.interceptor.JwtTokenUserInterceptor;
 import com.fuyu.json.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     @Autowired
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
 
+    @Autowired
+    private JwtTokenUserInterceptor jwtTokenUserInterceptor;
+
     /**
      * 注册自定义拦截器
      *
@@ -39,6 +43,12 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/admin/**")   // 拦截路径
                 .excludePathPatterns("/admin/employee/login");// 不拦截的路径
+
+        registry.addInterceptor(jwtTokenUserInterceptor)
+                .addPathPatterns("/user/**")   // 拦截路径
+                .excludePathPatterns("/user/user/login")// 不拦截的路径
+                .excludePathPatterns("/user/shop/status");//还没有登录，前端就已经发送该请求  也需要排除
+
     }
 
     /**

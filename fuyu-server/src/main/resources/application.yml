@@ -31,12 +31,21 @@ logging:
 
 fuyu:
   jwt:
+    # 管理端
     # 设置jwt签名加密时使用的秘钥
     admin-secret-key: itcast
     # 设置jwt过期时间
     admin-ttl: 7200000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+
+    # 小程序用户端
+    # 设置jwt签名加密时使用的秘钥
+    user-secret-key: fuyu
+    # 设置jwt过期时间
+    user-ttl: 72000000
+    # 设置前端传递过来的令牌名称
+    user-token-name: authentication
 
   alioss:
     endpoint: ${fuyu.alioss.endpoint}
@@ -46,3 +55,7 @@ fuyu:
     port: ${fuyu.redis.port}
     password: ${fuyu.redis.password}
     database: ${fuyu.redis.database}
+#    微信小程序
+  wechat:
+    appid: ${fuyu.wechat.appid}
+    secret: ${fuyu.wechat.secret}
