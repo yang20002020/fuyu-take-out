@@ -30,10 +30,10 @@ public interface DishFlavorMapper {
     void deleteByDishIds(List<Long> dishIds);
 
     /**
-     * 更加菜品id 查询口味数据，即口味表中的数据
+     * 根据菜品id 查询对应的口味数据，即口味表中的数据
      * @param DishId
      */
-    @Select("select * from dish_flavor where id=#{DishId}")
+    @Select("select * from dish_flavor where dish_id=#{DishId}")
     List<DishFlavor> getByDishId(Long DishId);
 
 

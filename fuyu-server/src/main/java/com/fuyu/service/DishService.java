@@ -1,6 +1,7 @@
 package com.fuyu.service;
 import com.fuyu.dto.DishDTO;
 import com.fuyu.dto.DishPageQueryDTO;
+import com.fuyu.entity.Dish;
 import com.fuyu.result.PageResult;
 import com.fuyu.vo.DishVO;
 
@@ -40,4 +41,11 @@ public interface DishService {
      * @param dishDTO
      */
     void updateDishWithFlavor(DishDTO dishDTO);
+
+ /**
+  * 条件查询菜品和口味
+  * @param dish
+  * @return
+  */
+ List<DishVO> listWithFlavor(Dish dish);
 }
