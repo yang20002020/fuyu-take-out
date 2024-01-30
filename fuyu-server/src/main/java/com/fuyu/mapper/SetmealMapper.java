@@ -1,5 +1,7 @@
 package com.fuyu.mapper;
+import com.fuyu.annotation.AutoFill;
 import com.fuyu.entity.Setmeal;
+import com.fuyu.enumeration.OperationType;
 import com.fuyu.vo.DishItemVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -35,4 +37,11 @@ public interface SetmealMapper {
      */
     @Select("select count(id) from setmeal where category_id = #{categoryId}")
     Integer countByCategoryId(Long id);
+
+    /**
+     * 根据id修改套餐
+     * @param setmeal
+     */
+    @AutoFill(OperationType.UPDATE)
+    void update(Setmeal setmeal);
 }
