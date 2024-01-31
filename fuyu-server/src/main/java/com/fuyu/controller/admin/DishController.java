@@ -1,6 +1,7 @@
 package com.fuyu.controller.admin;
 import com.fuyu.dto.DishDTO;
 import com.fuyu.dto.DishPageQueryDTO;
+import com.fuyu.entity.Dish;
 import com.fuyu.result.PageResult;
 import com.fuyu.result.Result;
 import com.fuyu.service.DishService;
@@ -122,6 +123,18 @@ public class DishController {
 
     }
 
+    /**
+     * 根据分类id查询菜品
+     * @param categoryId
+     * @return
+     */
+    @GetMapping("/list")
+    @ApiOperation("根据分类id查询菜品")
+    public Result<List<Dish>> list(Long categoryId){
+         log.info("根据分类id查询菜品{}",categoryId);
+        List<Dish> list =  dishService.getDishListByCategoryId(categoryId);
+         return Result.success(list);
+    }
 
     /**
      * 清理缓存

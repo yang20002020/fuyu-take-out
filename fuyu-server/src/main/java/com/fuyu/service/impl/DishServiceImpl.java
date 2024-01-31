@@ -6,23 +6,19 @@ import com.fuyu.dto.DishPageQueryDTO;
 import com.fuyu.entity.Dish;
 import com.fuyu.entity.DishFlavor;
 import com.fuyu.entity.Setmeal;
-import com.fuyu.entity.SetmealDish;
 import com.fuyu.exception.DeletionNotAllowedException;
 import com.fuyu.mapper.DishFlavorMapper;
 import com.fuyu.mapper.DishMapper;
 import com.fuyu.mapper.SetmealDishMapper;
 import com.fuyu.mapper.SetmealMapper;
 import com.fuyu.result.PageResult;
-import com.fuyu.result.Result;
 import com.fuyu.service.DishService;
 import com.fuyu.vo.DishVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -250,5 +246,21 @@ public class DishServiceImpl implements DishService {
                 }
             }
         }
+    }
+
+    /**
+     * 根据分类id查询菜品
+     * @param categoryId
+     * @return
+     */
+    @Override
+    public List<Dish> getDishListByCategoryId(Long categoryId) {
+        Dish dish = Dish.builder()
+                        .categoryId(categoryId)
+                        .status(StatusConstant.ENABLE)
+                        .build();
+        List<Dish> list =   dishMapper.list(dish);
+
+        return  list;
     }
 }
