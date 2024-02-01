@@ -2,6 +2,7 @@ package com.fuyu.mapper;
 
 import com.fuyu.entity.SetmealDish;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -20,4 +21,12 @@ public interface SetmealDishMapper {
      * @param setmealDishes
      */
     void insertBatch(List<SetmealDish> setmealDishes);
+
+    /**
+     * 根据套餐id获取 套餐和菜品数据列表
+     * @param setMealId
+     * @return
+     */
+    @Select("select *from setmeal_dish  where  setmeal_id=#{setMealId} ")
+    List<SetmealDish> getSetmealDishListBySetmealId(Integer setMealId);
 }

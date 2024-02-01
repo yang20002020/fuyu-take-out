@@ -5,6 +5,7 @@ import com.fuyu.dto.SetmealPageQueryDTO;
 import com.fuyu.result.PageResult;
 import com.fuyu.result.Result;
 import com.fuyu.service.SetmealService;
+import com.fuyu.vo.SetmealVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -49,5 +50,21 @@ public class SetmealController {
         PageResult pageResult= setmealService.pageQuery(setmealPageQueryDTO);
         return  Result.success(pageResult);
     }
+
+    /**
+     * 根据套餐id查询套餐，用于修改页面回显数据
+     * @param setMealId
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据套餐id查询套餐")
+    public Result<SetmealVO> getSetMealById(@PathVariable("id") Integer setMealId){
+
+         log.info("根据套餐id查询套餐{}",setMealId);
+         SetmealVO setmealVO=  setmealService.getSetMealBySetMealId(setMealId);
+         return Result.success(setmealVO);
+    }
+
+
 
 }

@@ -4,6 +4,8 @@ import com.fuyu.dto.SetmealPageQueryDTO;
 import com.fuyu.entity.Setmeal;
 import com.fuyu.result.PageResult;
 import com.fuyu.vo.DishItemVO;
+import com.fuyu.vo.SetmealVO;
+
 import java.util.List;
 
 public interface SetmealService {
@@ -35,4 +37,12 @@ public interface SetmealService {
      * @return
      */
     PageResult pageQuery(SetmealPageQueryDTO setmealPageQueryDTO);
+
+    /**
+     * 根据id查询套餐
+     * @param setMealId
+     * @return
+     */
+
+    SetmealVO getSetMealBySetMealId(Integer setMealId);
 }
