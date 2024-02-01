@@ -1,8 +1,11 @@
 package com.fuyu.mapper;
 import com.fuyu.annotation.AutoFill;
+import com.fuyu.dto.SetmealPageQueryDTO;
 import com.fuyu.entity.Setmeal;
 import com.fuyu.enumeration.OperationType;
 import com.fuyu.vo.DishItemVO;
+import com.fuyu.vo.SetmealVO;
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -44,4 +47,20 @@ public interface SetmealMapper {
      */
     @AutoFill(OperationType.UPDATE)
     void update(Setmeal setmeal);
+
+    /**
+     * 新增套餐
+     * @param setmeal
+     */
+    @AutoFill(OperationType.INSERT)
+    void insert(Setmeal setmeal);
+
+    /**
+     * 分页查询
+     * @param setmealPageQueryDTO
+     * @return
+     */
+//    select   s.*, category_name  from  setmeal s left join category c on  s.category_id = c.id
+//    where   category_id=? and status=?  and name=?
+    Page<SetmealVO> pageQuery(SetmealPageQueryDTO setmealPageQueryDTO);
 }
