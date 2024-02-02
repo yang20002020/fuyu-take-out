@@ -75,4 +75,10 @@
        </where>
 
     </select>
+    <delete id="deleteBatch">
+        delete  from setmeal where id in
+                       <foreach collection="ids"  open="("  item="id"  separator="," close=")">
+                           #{id}
+                       </foreach>
+    </delete>
 </mapper>

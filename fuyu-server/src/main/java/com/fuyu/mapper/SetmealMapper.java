@@ -79,4 +79,12 @@ public interface SetmealMapper {
      */
     @Select("select c.name categoryName   from setmeal s left join category c on s.category_id = c.id where s.id=#{setMealId}")
     String  getCategoryName(Long setMealId);
+
+    /**
+     * 根据套餐id 批量删除套餐
+     * @param ids
+     */
+    void deleteBatch(List<Long> ids);
+
+
 }

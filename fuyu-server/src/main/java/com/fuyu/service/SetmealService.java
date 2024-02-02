@@ -57,4 +57,11 @@ public interface SetmealService {
      * @param status
      */
     void updateStatus(Integer status,Long id);
+
+    /**
+     * 根据套餐id批量删除套餐
+     * @param ids
+     */
+
+    void deleteBatchByIds(List<Long> ids);
 }

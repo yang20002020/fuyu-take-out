@@ -6,6 +6,7 @@ import com.fuyu.dto.SetmealPageQueryDTO;
 import com.fuyu.entity.Dish;
 import com.fuyu.entity.Setmeal;
 import com.fuyu.entity.SetmealDish;
+import com.fuyu.exception.DeletionNotAllowedException;
 import com.fuyu.exception.SetmealEnableFailedException;
 import com.fuyu.mapper.DishMapper;
 import com.fuyu.mapper.SetmealDishMapper;
@@ -193,5 +194,30 @@ public class SetmealServiceImpl implements SetmealService {
 
         setmealMapper.update(setmeal);
     }
+
+    /**
+     * 根据套餐id 批量删除套餐
+     * @param ids
+     */
+    @Override
+    @Transactional
+    public void deleteBatchByIds(List<Long> ids) {
+        //起售中的套餐不能删除
+        ids.forEach(
+                id->{
+                    Setmeal setMeal = setmealMapper.getSetMealBySetMealId(id);
+                    if(StatusConstant.ENABLE==setMeal.getStatus()){
+                        throw new DeletionNotAllowedException(MessageConstant.DISH_ON_SALE);
+                    }
+                }
+        );
+
+        //删除套餐表中的数据
+        setmealMapper.deleteBatch(ids);
+        //删除套餐菜品关系表中的数据
+        setmealDishMapper.deleteBatchBySetMealId(ids);
+
+    }
+
 
 }
