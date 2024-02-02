@@ -71,12 +71,12 @@ public interface SetmealMapper {
      * @param id
      */
     @Select("select * from setmeal where id=#{id}")
-     Setmeal getSetMealBySetMealId(Integer id);
+     Setmeal getSetMealBySetMealId(Long id);
 
     /**
      * 根据套餐id 获取分类名称
      * @param setMealId
      */
     @Select("select c.name categoryName   from setmeal s left join category c on s.category_id = c.id where s.id=#{setMealId}")
-    String  getCategoryName(Integer setMealId);
+    String  getCategoryName(Long setMealId);
 }

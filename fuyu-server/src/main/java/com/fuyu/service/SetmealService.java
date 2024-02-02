@@ -44,5 +44,11 @@ public interface SetmealService {
      * @return
      */
 
-    SetmealVO getSetMealBySetMealId(Integer setMealId);
+    SetmealVO getSetMealBySetMealId(Long setMealId);
+
+    /**
+     * 修改套餐
+     * @param setmealDTO
+     */
+    void update(SetmealDTO setmealDTO);
 }

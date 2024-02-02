@@ -1,6 +1,7 @@
 package com.fuyu.mapper;
 
 import com.fuyu.entity.SetmealDish;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -28,5 +29,11 @@ public interface SetmealDishMapper {
      * @return
      */
     @Select("select *from setmeal_dish  where  setmeal_id=#{setMealId} ")
-    List<SetmealDish> getSetmealDishListBySetmealId(Integer setMealId);
+    List<SetmealDish> getSetmealDishListBySetmealId(Long  setMealId);
+
+    /**
+     * 根据套餐id删除 套餐和菜品关系数据
+     */
+    @Delete("delete from setmeal_dish where setmeal_id=#{setMealId}")
+    void deleteBySetMealId(Long  setMealId);
 }
