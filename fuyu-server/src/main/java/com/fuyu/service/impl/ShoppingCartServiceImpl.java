@@ -1,4 +1,5 @@
 package com.fuyu.service.impl;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.fuyu.context.BaseContext;
 import com.fuyu.dto.ShoppingCartDTO;
 import com.fuyu.entity.Dish;
@@ -121,5 +122,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             shoppingCartMapper.insert(shoppingCart); //统一插入数据
         }
 
+    }
+
+    /**
+     * 查看购物车
+     * @return
+     */
+    @Override
+    public List<ShoppingCart> showShoppingCart() {
+        //根据用户id查询购物车
+        ShoppingCart shoppingCart = ShoppingCart.builder().userId(BaseContext.getCurrentId()).build();
+        List<ShoppingCart> shoppingCarts=  shoppingCartMapper.list(shoppingCart);
+        return shoppingCarts;
     }
 }
