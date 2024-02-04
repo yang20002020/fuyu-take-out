@@ -4,6 +4,7 @@
 <mapper namespace="com.fuyu.mapper.ShoppingCartMapper">
 
 
+
     <select id="list" resultType="com.fuyu.entity.ShoppingCart">
         select * from shopping_cart
          <where>
@@ -21,6 +22,8 @@
              </if>
          </where>
         order by
-            createTime desc
+            create_time desc
     </select>
+
+
 </mapper>
