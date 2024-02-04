@@ -3,6 +3,7 @@ import com.fuyu.dto.ShoppingCartDTO;
 import com.fuyu.entity.ShoppingCart;
 import com.fuyu.result.Result;
 import com.fuyu.service.ShoppingCartService;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,18 @@ public class ShoppingCartController {
         log.info("查看购物车");
         List<ShoppingCart> shoppingCarts=shoppingCartService.showShoppingCart();
         return Result.success(shoppingCarts);
+    }
+
+    /**
+     * 清空购物车
+     * @return
+     */
+    @DeleteMapping("/clean")
+    @ApiOperation("清空购物车")
+    public Result cleanShoppingCart(){
+        log.info("清空购物车");
+        shoppingCartService.cleanShoppingCart();
+        return Result.success();
     }
 
 }

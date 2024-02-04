@@ -1,5 +1,6 @@
 package com.fuyu.mapper;
 import com.fuyu.entity.ShoppingCart;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
@@ -30,4 +31,11 @@ public interface ShoppingCartMapper {
             "amount,image,create_time)" +
             "values (#{name},#{userId},#{dishId},#{setmealId},#{dishFlavor},#{number},#{amount},#{image},#{createTime})")
     void insert(ShoppingCart shoppingCart);
+
+    /**
+     *  清空购物车
+     * @param currentId
+     */
+    @Delete("delete from shopping_cart where user_id=#{userId}")
+    void cleanShoppingCart(Long currentId);
 }
