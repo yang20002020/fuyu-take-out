@@ -33,7 +33,7 @@ public interface ShoppingCartMapper {
     void insert(ShoppingCart shoppingCart);
 
     /**
-     *  清空购物车
+     * 根据用户id  清空购物车
      * @param currentId
      */
     @Delete("delete from shopping_cart where user_id=#{userId}")
