@@ -3,6 +3,10 @@ import com.fuyu.entity.Orders;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.w3c.dom.stylesheets.LinkStyle;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Mapper
 public interface OrderMapper {
@@ -28,4 +32,16 @@ public interface OrderMapper {
      * @param orders
      */
     void update(Orders orders);
+
+    /**
+     * 根据订单状态和下单时间查询订单
+     * @param status
+     * @param orderTime
+     * @return
+     */
+    //select * from orders where status =? and order_time<(当前时间-15分钟)
+    @Select("select * from orders where status= #{status} and order_time<#{orderTime}")
+    List<Orders> getByStatusAndOrderTimeLT(Integer status, LocalDateTime orderTime);
+
+
 }
