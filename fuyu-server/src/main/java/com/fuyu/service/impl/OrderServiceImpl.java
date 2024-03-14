@@ -15,9 +15,11 @@ import com.fuyu.utils.WeChatPayUtil;
 import com.fuyu.vo.OrderPaymentVO;
 import com.fuyu.vo.OrderSubmitVO;
 import com.fuyu.websocket.WebSocketServer;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -263,6 +265,27 @@ public class OrderServiceImpl implements OrderService {
         //通过WebSocket实现来单提醒，向客户端浏览器推送消息
         webSocketServer.sendToAllClient(JSON.toJSONString(map));
         ///////////////////////////////////////////////////
+
+    }
+
+    /**
+     * 用户催单
+     * @param id
+     */
+    @Override
+    public void reminder(Long id) {
+        //查询订单是否存在
+        Orders orders = orderMapper.getById(id);
+        if(orders==null){
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+
+        //基于websocket 实现催单
+        HashMap hashMap = new HashMap();
+        hashMap.put("type",2);//2代表用户催单
+        hashMap.put("orderId",id);
+        hashMap.put("content","订单号:"+orders.getNumber());
+        webSocketServer.sendToAllClient(JSON.toJSONString(hashMap));
 
     }
 }

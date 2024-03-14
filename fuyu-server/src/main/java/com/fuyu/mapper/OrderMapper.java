@@ -1,9 +1,7 @@
 package com.fuyu.mapper;
 import com.fuyu.entity.Orders;
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,5 +41,11 @@ public interface OrderMapper {
     @Select("select * from orders where status= #{status} and order_time<#{orderTime}")
     List<Orders> getByStatusAndOrderTimeLT(Integer status, LocalDateTime orderTime);
 
-
+    /**
+     * 根据id查询菜单
+     * @param id
+     * @return
+     */
+    @Select("select * from orders where id =#{id}")
+    Orders getById(Long id);
 }
