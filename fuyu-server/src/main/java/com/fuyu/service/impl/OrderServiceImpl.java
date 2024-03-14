@@ -1,4 +1,5 @@
 package com.fuyu.service.impl;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fuyu.constant.MessageConstant;
 import com.fuyu.context.BaseContext;
@@ -9,11 +10,11 @@ import com.fuyu.exception.AddressBookBusinessException;
 import com.fuyu.exception.OrderBusinessException;
 import com.fuyu.exception.ShoppingCartBusinessException;
 import com.fuyu.mapper.*;
-import com.fuyu.result.Result;
 import com.fuyu.service.OrderService;
 import com.fuyu.utils.WeChatPayUtil;
 import com.fuyu.vo.OrderPaymentVO;
 import com.fuyu.vo.OrderSubmitVO;
+import com.fuyu.websocket.WebSocketServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -42,6 +45,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private ShoppingCartMapper shoppingCartMapper;
+
+
+    @Autowired
+    private WebSocketServer webSocketServer;
 
     /**
      * 用户下单
@@ -246,5 +253,16 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         orderMapper.update(orders);
+
+        //////////////////////////////////////////////
+        Map map = new HashMap();
+        map.put("type", 1);//消息类型，1表示来单提醒
+        map.put("orderId", orders.getId());
+        map.put("content", "订单号：" + outTradeNo);
+
+        //通过WebSocket实现来单提醒，向客户端浏览器推送消息
+        webSocketServer.sendToAllClient(JSON.toJSONString(map));
+        ///////////////////////////////////////////////////
+
     }
 }
